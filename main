@@ -9,7 +9,6 @@ do
 	then
 		echo $parameter >> parameter.txt
 		ins="https://google.com"
-		echo "$url$check$ins"
 		if curl -LIs "$url$check$ins" | grep -Ei 'location: (https?:)?[/\\]{2,}google.com' > /dev/null;
 		then
 			echo "$url";
