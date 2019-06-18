@@ -1,0 +1,18 @@
+#!/bin/bash
+domain=$(head -n 1 $1)
+while IFS=  read -r urls;
+do
+	url=$(echo "$urls" | grep -m 1 -i "$urls");
+	check=$(echo $url | grep -o "[\?\\&]\w*=");
+	parameter=$(echo $check | grep -o "\w*");
+	if [[ -n $parameter ]]
+	then
+		echo $parameter >> parameter.txt
+		ins="https://google.com"
+		echo "$url$check$ins"
+		if curl -LIs "$url$check$ins" | grep -Ei 'location: (https?:)?[/\\]{2,}google.com' > /dev/null;
+		then
+			echo "$url";
+		fi
+	fi
+done < $1
